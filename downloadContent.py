@@ -6,7 +6,7 @@ import csv
 from multiprocessing import Pool
 import argparse
 
-fieldNames = ['bodyType', 'brand', 'color', 'fuelType', 'modelDate', 'name', 'numberOfDoors', 'productionDate', 
+fieldNames = ['url', 'bodyType', 'brand', 'color', 'fuelType', 'modelDate', 'name', 'numberOfDoors', 'productionDate', 
                 'vehicleTransmission', 'engineDisplacement', 'enginePower', 'description', 'mileage', 'Комплектация',
                 'Привод', 'Руль', 'Состояние', 'Владельцы', 'ПТС', 'Таможня', 'Владение']
 
@@ -224,6 +224,7 @@ def main(url):
     with open('./results.csv', 'a') as f:
         csvWriter = csv.DictWriter(f, fieldnames=fieldNames)
         csvWriter.writerow({
+            'url':url,
             'bodyType':bodyType,
             'brand':brand,
             'color':color,
