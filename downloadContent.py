@@ -8,7 +8,7 @@ import argparse
 
 fieldNames = ['url', 'bodyType', 'brand', 'color', 'fuelType', 'modelDate', 'name', 'numberOfDoors', 'productionDate', 
                 'vehicleTransmission', 'engineDisplacement', 'enginePower', 'description', 'mileage', 'Комплектация',
-                'Привод', 'Руль', 'Состояние', 'Владельцы', 'ПТС', 'Таможня', 'Владение']
+                'Привод', 'Руль', 'Состояние', 'Владельцы', 'ПТС', 'Таможня', 'Владение', 'Price']
 
 def findModelCard(soup):
     data = soup.find_all('a', class_='Link SpoilerLink CardCatalogLink SpoilerLink_type_default')
@@ -188,6 +188,15 @@ def find_equipment(soup):
         return None
 
 
+def findPrice(soup):
+    try:
+        price = soup.find('div', class_='Price-module__caption dQDQegt0PNvLDCov3k_W4__priceCaption').text
+        return price
+    except:
+        return None
+
+
+
 def parse():
     parser = argparse.ArgumentParser(description="""""")
     parser.add_argument('-f', type = str, help='Source file with phone numbers')
@@ -221,6 +230,8 @@ def main(url):
     pts = findPTS(soup)
     customs = findCustoms(soup)
     tenure = findTenure(soup)
+    price = findPrice(soup)
+
     with open('./results.csv', 'a') as f:
         csvWriter = csv.DictWriter(f, fieldnames=fieldNames)
         csvWriter.writerow({
@@ -245,7 +256,8 @@ def main(url):
             'Владельцы':owner,
             'ПТС':pts,
             'Таможня':customs,
-            'Владение':tenure
+            'Владение':tenure,
+            'Price':price
         })
 
 
